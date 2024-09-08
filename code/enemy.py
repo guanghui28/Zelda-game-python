@@ -4,7 +4,7 @@ from entity import Entity
 from support import import_folder
 
 class Enemy(Entity):
-    def __init__(self, monster_name, pos, groups, obstacle_sprite, damage_player):
+    def __init__(self, monster_name, pos, groups, obstacle_sprite, damage_player, trigger_death_particles):
         super().__init__(groups)
         
         # general setup
@@ -37,12 +37,13 @@ class Enemy(Entity):
         self.attack_time = None
         self.attack_cooldown = 800
         self.damage_player = damage_player
+        self.trigger_death_particles = trigger_death_particles
         
         # invincibility timer
         self.vulnerable = True
         self.hit_time = None
         self.invincibility_duration = 300
-        
+                
     def import_graphics(self, name):
         self.animations = {'idle': [], 'move': [], 'attack': []}
         main_path = f'../graphics/monsters/{name}'
@@ -102,6 +103,7 @@ class Enemy(Entity):
     def check_death(self):
         if self.health <= 0:
             self.kill()
+            self.trigger_death_particles(self.rect.center,self.monster_name)
          
     def animate(self):
         animations = self.animations[self.status]
