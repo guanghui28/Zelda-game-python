@@ -38,6 +38,11 @@ class Level:
 		# particles
 		self.animation_player = AnimationPlayer()
 		self.magic_player = MagicPlayer(self.animation_player)
+  
+		# sound
+		main_sound = pygame.mixer.Sound('../audio/main.ogg')
+		main_sound.set_volume(0.2)
+		main_sound.play(loops=-1)
 	
 	def create_attack(self):
 		self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites])
