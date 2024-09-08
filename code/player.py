@@ -39,9 +39,11 @@ class Player(Entity):
   
 		# stats
 		self.stats = {'health':100, 'energy': 60, 'attack': 10, 'magic': 4, 'speed': 5}
+		self.max_stats = {'health': 300, 'energy': 140, 'attack':20, 'magic': 10, 'speed': 10}
+		self.upgrade_cost = {'health': 100, 'energy':100, 'attack': 100, 'magic': 100, 'speed': 100}
 		self.health = self.stats['health'] * 0.5
 		self.energy = self.stats['energy'] * 0.8
-		self.exp = 123
+		self.exp = 500
 		self.speed = self.stats['speed']
 
 		# enemy attack
@@ -185,11 +187,17 @@ class Player(Entity):
 			self.energy += 0.01 * self.stats['magic']
 		else:
 			self.energy = self.stats['energy']
+	
+	def get_value_by_index(self, index):
+		return list(self.stats.values())[index]
+	
+	def get_cost_by_index(self, index):
+		return list(self.upgrade_cost.values())[index]
  
 	def update(self):
 		self.get_input()
 		self.cooldown()
 		self.get_status()
 		self.animate()
-		self.movement(self.speed)
+		self.movement(self.stats['speed'])
 		self.energy_recovery()
